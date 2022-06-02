@@ -1,4 +1,6 @@
+import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
+import 'package:projetopesquisa/controller/domicilios_controller.dart';
 import 'package:projetopesquisa/models/domicilio.dart';
 import 'package:projetopesquisa/pages/aberturaDomicilio.dart';
 
@@ -10,11 +12,15 @@ class SelecaoDomicilio extends StatefulWidget {
 }
 
 class _SelecaoDomicilioState extends State<SelecaoDomicilio> {
-  final domicilios = [
-    Domicilio(controle: 2022124, endereco: "Rua padre fonseca de primeira, 70 - Iraja", estado: 'Rio de Janeiro', municipio: "Rio de Janeiro", status: 'Não Iniciado'),
-    Domicilio(controle: 2022564, endereco: "Rua dias, 56 - Bangu", estado: 'Rio de Janeiro', municipio: "Rio de Janeiro", status: 'Não Iniciado'),
-    Domicilio(controle: 2022755, endereco: "Rua sete de setembro, 7 - Centro", estado: 'Rio de Janeiro', municipio: "Rio de Janeiro", status: 'Não Iniciado'),
-  ];
+  late DomiciliosController domiciliosController;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    domiciliosController = DomiciliosController();
+    domiciliosController.getDomicilios();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,28 +28,58 @@ class _SelecaoDomicilioState extends State<SelecaoDomicilio> {
       home: Scaffold(
         appBar: AppBar(
           title: const Text('Seleção de Domicílios'),
+          actions: [
+            IconButton(onPressed: addDomicilio, icon: Icon(Icons.add)),
+          ],
         ),
-        body: ListView.builder(
-            padding: const EdgeInsets.all(8),
-            itemCount: domicilios.length,
-            itemBuilder: (context, index) {
-              return Card(
-                elevation: 5,
-                  child: ListTile(
-                      title: Text("Controle: ${domicilios[index].controle.toString()}"),
-                      subtitle: Text("Status: ${domicilios[index].status.toString()}"),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => AberturaDomicilio(domicilio: domicilios[index],)),
-                        );
-                      },
-                      leading: const Icon(Icons.article_outlined,
-                      size: 36,)
-                  ),
-              );
-            }),
+        body: Container(
+          padding: const EdgeInsets.all(5),
+          child: AnimatedBuilder(
+            animation: domiciliosController,
+            builder: (context, child) {
+              return ListView.builder(
+                  padding: const EdgeInsets.all(8),
+                  itemCount: domiciliosController.listDomicilios.length,
+                  itemBuilder: (context, index) {
+                    return Card(
+                      elevation: 5,
+                      child: ListTile(
+                          title: Text(
+                              "Controle: ${domiciliosController.listDomicilios[index].controle.toString()}"),
+                          subtitle: Text(
+                              "Status: ${domiciliosController.listDomicilios[index].status.toString()}"),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AberturaDomicilio(
+                                        domicilio: domiciliosController
+                                            .listDomicilios[index],
+                                      )),
+                            );
+                          },
+                          leading: const Icon(
+                            Icons.article_outlined,
+                            size: 36,
+                          )),
+                    );
+                  });
+            },
+          ),
+        ),
       ),
     );
+  }
+
+  addDomicilio() {
+    final faker = Faker();
+    Domicilio dom = Domicilio(
+      controle: faker.hashCode,
+      endereco: faker.address.streetAddress(),
+      estado: faker.address.state(),
+      municipio: faker.address.countryCode(),
+      status: "Não Iniciado",
+    );
+    domiciliosController.addDomicilio(dom);
   }
 }
