@@ -1,5 +1,6 @@
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:projetopesquisa/controller/domicilios_controller.dart';
 import 'package:projetopesquisa/models/domicilio.dart';
 import 'package:projetopesquisa/pages/aberturaDomicilio.dart';
@@ -12,6 +13,7 @@ class SelecaoDomicilio extends StatefulWidget {
 }
 
 class _SelecaoDomicilioState extends State<SelecaoDomicilio> {
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>(); //uso do Slidable
   late DomiciliosController domiciliosController;
 
   @override
@@ -41,28 +43,46 @@ class _SelecaoDomicilioState extends State<SelecaoDomicilio> {
                   padding: const EdgeInsets.all(8),
                   itemCount: domiciliosController.listDomicilios.length,
                   itemBuilder: (context, index) {
-                    return Card(
-                      elevation: 5,
-                      child: ListTile(
-                          title: Text(
-                              "Controle: ${domiciliosController.listDomicilios[index].controle.toString()}"),
-                          subtitle: Text(
-                              "Status: ${domiciliosController.listDomicilios[index].status.toString()}"),
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => AberturaDomicilio(
-                                        domicilio: domiciliosController
-                                            .listDomicilios[index],
-                                      )),
-                            );
-                          },
-                          leading: const Icon(
-                            Icons.article_outlined,
-                            size: 36,
-                          )),
-                    );
+                    return Slidable(
+                      key: Key(domiciliosController
+                          .listDomicilios[index].controle
+                          .toString()),
+                      child: Card(
+                        elevation: 5,
+                        child: ListTile(
+                            title: Text(
+                                "Controle: ${domiciliosController.listDomicilios[index].controle.toString()}"),
+                            subtitle: Text(
+                                "Status: ${domiciliosController.listDomicilios[index].status.toString()}"),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => AberturaDomicilio(domicilio: domiciliosController.listDomicilios[index],)
+                                ),
+                              );
+                            },
+                            leading: const Icon(
+                              Icons.article_outlined,
+                              size: 36,
+                            )),
+                      ),
+                        endActionPane: ActionPane(
+                        motion: const ScrollMotion(),
+                        children: [
+                        SlidableAction(
+                        label: 'Enviar',
+                        backgroundColor: Colors.blueAccent,
+                        icon: Icons.update,
+                        onPressed: (BuildContext context) async{
+                          final update = domiciliosController.listDomicilios[index];
+                          await domiciliosController.deleteDomicilioIndex(index);
+
+                          showSnackBar(scaffoldKey.currentState, 'Atualizado');
+
+                        },
+                      ),
+                    ]));
                   });
             },
           ),
@@ -81,5 +101,13 @@ class _SelecaoDomicilioState extends State<SelecaoDomicilio> {
       status: "Não Iniciado",
     );
     domiciliosController.addDomicilio(dom);
+  }
+
+  void showSnackBar(ScaffoldState? currentState, String s) {
+    final snackBar = SnackBar(
+      content: Text(s),
+      duration: const Duration(seconds: 1),
+    );
+    currentState?.showSnackBar(snackBar);
   }
 }

@@ -15,6 +15,11 @@ class DomiciliosController extends ChangeNotifier{
     notifyListeners();
   }
 
+  deleteDomicilioIndex(int domicilio){
+    listDomicilios.removeAt(domicilio);
+    notifyListeners();
+  }
+
   deleteDomicilio(Domicilio domicilio){
     listDomicilios.remove(domicilio);
     notifyListeners();
