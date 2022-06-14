@@ -1,9 +1,11 @@
 import 'package:faker/faker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:projetopesquisa/controller/domicilios_controller.dart';
 import 'package:projetopesquisa/models/domicilio.dart';
 import 'package:projetopesquisa/pages/aberturaDomicilio.dart';
+import 'package:pesquisapack/pesquisapack.dart';
 
 class SelecaoDomicilio extends StatefulWidget {
   const SelecaoDomicilio({Key? key}) : super(key: key);
@@ -32,6 +34,7 @@ class _SelecaoDomicilioState extends State<SelecaoDomicilio> {
           title: const Text('Seleção de Domicílios'),
           actions: [
             IconButton(onPressed: addDomicilio, icon: Icon(Icons.add)),
+            IconButton(onPressed: sair, icon: Icon(Icons.exit_to_app)),
           ],
         ),
         body: Container(
@@ -94,13 +97,19 @@ class _SelecaoDomicilioState extends State<SelecaoDomicilio> {
   addDomicilio() {
     final faker = Faker();
     Domicilio dom = Domicilio(
-      controle: faker.hashCode,
-      endereco: faker.address.streetAddress(),
-      estado: faker.address.state(),
-      municipio: faker.address.countryCode(),
-      status: "Não Iniciado",
+        controle: faker.hashCode,
+        endereco: faker.address.streetAddress(),
+        estado: faker.address.state(),
+        municipio: faker.address.countryCode(),
+        tipoEntrevista: "Não Iniciado",
+        status: "Não Iniciado",
+        telefone: '(21)999999999'
     );
     domiciliosController.addDomicilio(dom);
+  }
+
+  sair() {
+    FirebaseAuth.instance.signOut();
   }
 
   void showSnackBar(ScaffoldState? currentState, String s) {

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "908120428877",
+    "project_id": "projeto-modulo-flutter",
+    "storage_bucket": "projeto-modulo-flutter.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:908120428877:android:8ec4b12113f0a9e0e06704",
+        "android_client_info": {
+          "package_name": "br.edu.infnet.projeto.modulo.projetopesquisa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "908120428877-88amd66gvltmn3oghd6mqoaquock66de.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCF1i8t8eHdSr98IWxA5l4WUEEwAQqpU3U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "908120428877-88amd66gvltmn3oghd6mqoaquock66de.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
