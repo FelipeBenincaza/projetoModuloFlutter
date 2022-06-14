@@ -7,7 +7,6 @@ class Domicilio extends Equatable{
   late String municipio;
   late String tipoEntrevista;
   late String status;
-  late String telefone;
 
   Domicilio({
     required this.controle,
@@ -16,7 +15,6 @@ class Domicilio extends Equatable{
     required this.municipio,
     required this.tipoEntrevista,
     required this.status,
-    required this.telefone
   });
 
   @override

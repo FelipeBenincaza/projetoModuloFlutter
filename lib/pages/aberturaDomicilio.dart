@@ -13,6 +13,23 @@ class AberturaDomicilio extends StatefulWidget {
 }
 
 class _AberturaDomicilioState extends State<AberturaDomicilio> {
+  late String tipoEntrevista;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    tipoEntrevista = widget.domicilio.tipoEntrevista;
+  }
+
+  void setValorDrop(String? select) {
+    if (select is String) {
+      setState(() {
+        tipoEntrevista = select;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,11 +42,50 @@ class _AberturaDomicilioState extends State<AberturaDomicilio> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisSize: MainAxisSize.min,
           children: [
-            CampoInformacao(campo: "Controle:", informacao: widget.domicilio.controle.toString()),
-            CampoInformacao(campo: "Endereço:", informacao: widget.domicilio.endereco),
-            CampoInformacao(campo: "Município:", informacao: widget.domicilio.municipio),
-            CampoInformacao(campo: "Estado:", informacao: widget.domicilio.estado),
-            CampoInformacao(campo: "Status:", informacao: widget.domicilio.status),
+            CampoInformacao(
+                campo: "Controle:",
+                informacao: widget.domicilio.controle.toString()),
+            CampoInformacao(
+                campo: "Endereço:", informacao: widget.domicilio.endereco),
+            CampoInformacao(
+                campo: "Município:", informacao: widget.domicilio.municipio),
+            CampoInformacao(
+                campo: "Estado:", informacao: widget.domicilio.estado),
+            const Text(
+              "Favor selecionar o Tipo de Entrevista:",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            Card(
+              elevation: 5,
+              margin: const EdgeInsets.fromLTRB(0, 5, 5, 10),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(12, 8, 8, 8),
+                child: DropdownButton(
+                  items: const [
+                    DropdownMenuItem(
+                      child: Text('Selecione'),
+                      value: 'Selecione',
+                    ),
+                    DropdownMenuItem(
+                      child: Text('Realizar'),
+                      value: 'Realizar',
+                    ),
+                    DropdownMenuItem(
+                      child: Text('Recusa'),
+                      value: 'Recusa',
+                    ),
+                    DropdownMenuItem(
+                      child: Text('Morador não encontrado'),
+                      value: 'Morador não encontrado',
+                    ),
+                  ],
+                  value: tipoEntrevista,
+                  onChanged: setValorDrop,
+                  iconEnabledColor: Colors.green,
+                  isExpanded: true,
+                ),
+              ),
+            ),
             ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size.fromHeight(50),
@@ -39,12 +95,13 @@ class _AberturaDomicilioState extends State<AberturaDomicilio> {
                 'Abrir Questionário',
                 style: TextStyle(fontSize: 16),
               ),
-              onPressed: (){
+              onPressed: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => Questionario(domicilio: widget.domicilio,)
-                  ),
+                      builder: (context) => Questionario(
+                            domicilio: widget.domicilio,
+                          )),
                 );
               },
             ),

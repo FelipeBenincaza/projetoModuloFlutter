@@ -50,6 +50,22 @@ class _SelecaoDomicilioState extends State<SelecaoDomicilio> {
                       key: Key(domiciliosController
                           .listDomicilios[index].controle
                           .toString()),
+                        endActionPane: ActionPane(
+                        motion: const ScrollMotion(),
+                        children: [
+                        SlidableAction(
+                        label: 'Enviar',
+                        backgroundColor: Colors.blueAccent,
+                        icon: Icons.update,
+                        onPressed: (BuildContext context) async{
+                          final update = domiciliosController.listDomicilios[index];
+                          await domiciliosController.deleteDomicilioIndex(index);
+
+                          showSnackBar(scaffoldKey.currentState, 'Atualizado');
+
+                        },
+                      ),
+                    ]),
                       child: Card(
                         elevation: 5,
                         child: ListTile(
@@ -69,23 +85,8 @@ class _SelecaoDomicilioState extends State<SelecaoDomicilio> {
                               Icons.article_outlined,
                               size: 36,
                             )),
-                      ),
-                        endActionPane: ActionPane(
-                        motion: const ScrollMotion(),
-                        children: [
-                        SlidableAction(
-                        label: 'Enviar',
-                        backgroundColor: Colors.blueAccent,
-                        icon: Icons.update,
-                        onPressed: (BuildContext context) async{
-                          final update = domiciliosController.listDomicilios[index];
-                          await domiciliosController.deleteDomicilioIndex(index);
-
-                          showSnackBar(scaffoldKey.currentState, 'Atualizado');
-
-                        },
-                      ),
-                    ]));
+                      )
+                    );
                   });
             },
           ),
@@ -101,9 +102,8 @@ class _SelecaoDomicilioState extends State<SelecaoDomicilio> {
         endereco: faker.address.streetAddress(),
         estado: faker.address.state(),
         municipio: faker.address.countryCode(),
-        tipoEntrevista: "Não Iniciado",
+        tipoEntrevista: "Selecione",
         status: "Não Iniciado",
-        telefone: '(21)999999999'
     );
     domiciliosController.addDomicilio(dom);
   }
