@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:projetopesquisa/components/campo_informacao.dart';
 import 'package:projetopesquisa/models/domicilio.dart';
 import 'package:projetopesquisa/pages/questionario.dart';
+import 'package:projetopesquisa/pages/selecaoDomicilio.dart';
+
+import '../controller/domicilios_controller.dart';
 
 class AberturaDomicilio extends StatefulWidget {
   late Domicilio domicilio;
@@ -30,6 +33,10 @@ class _AberturaDomicilioState extends State<AberturaDomicilio> {
     }
   }
 
+  bool get isTipoEntrevistaRealizar {
+    return tipoEntrevista != "Selecione";
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,7 +59,7 @@ class _AberturaDomicilioState extends State<AberturaDomicilio> {
             CampoInformacao(
                 campo: "Estado:", informacao: widget.domicilio.estado),
             const Text(
-              "Favor selecionar o Tipo de Entrevista:",
+              "Tipo de Entrevista:",
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             Card(
@@ -86,28 +93,52 @@ class _AberturaDomicilioState extends State<AberturaDomicilio> {
                 ),
               ),
             ),
+            isTipoEntrevistaRealizar ?
             ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size.fromHeight(50),
               ),
-              icon: const Icon(Icons.article_outlined, size: 32),
-              label: const Text(
-                'Abrir Questionário',
+              icon: Icon(
+                tipoEntrevista == 'Realizar' ? Icons.article_outlined : Icons.assignment_turned_in,
+                size: 32,
+              ),
+              label: Text(
+                tipoEntrevista == 'Realizar' ? 'Abrir Questionário' : 'Finalizar Domicílio',
                 style: TextStyle(fontSize: 16),
               ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => Questionario(
-                            domicilio: widget.domicilio,
-                          )),
-                );
-              },
-            ),
+              onPressed: _clickButton,
+            ) : const Align(
+              alignment: Alignment.center,
+              child: Text(
+                "Favor selecionar o Tipo de Entrevista!",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold,),
+              ) ,
+            )
           ],
         ),
       ),
     );
+  }
+
+  _clickButton(){
+    if (tipoEntrevista == "Realizar"){
+      widget.domicilio.status = "Em Andamento";
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Questionario(
+            domicilio: widget.domicilio,
+          ),
+        ),
+      );
+    }else {
+      widget.domicilio.status = "Finalizada";
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => SelecaoDomicilio(),
+        ),
+      );
+    }
   }
 }
