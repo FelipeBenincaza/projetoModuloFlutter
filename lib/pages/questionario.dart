@@ -1,9 +1,9 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:projetopesquisa/components/quesito.dart';
 import 'package:projetopesquisa/models/domicilio_model.dart';
-import 'package:projetopesquisa/pages/selecao_domicilio_page.dart';
 
 import 'package:pesquisapack/pesquisapack.dart';
 import 'package:location/location.dart';
@@ -24,26 +24,33 @@ class _QuestionarioState extends State<Questionario> {
   late String quesito5;
   late String quesito6;
   late LocationData localizacao;
+  late String latitude;
+  late String longitude;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    quesito1 = "Selecione";
-    quesito2 = "Selecione";
-    quesito3 = "Selecione";
-    quesito4 = "Selecione";
-    quesito5 = "Selecione";
-    quesito6 = "Selecione";
+    quesito1 = widget.domicilio.quesito1;
+    quesito2 = widget.domicilio.quesito2;
+    quesito3 = widget.domicilio.quesito3;
+    quesito4 = widget.domicilio.quesito4;
+    quesito5 = widget.domicilio.quesito5;
+    quesito6 = widget.domicilio.quesito6;
+    latitude = widget.domicilio.latitude;
+    longitude = widget.domicilio.longitude;
   }
 
   void _buttonLocalizacao() async{
     localizacao = await pegarLocalizacao();
-
+    latitude = localizacao.latitude.toString();
+    longitude = localizacao.longitude.toString();
   }
 
   @override
   Widget build(BuildContext context) {
+    final valor = ValidaQuestionario();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Questionário Domicílio'),
@@ -76,13 +83,108 @@ class _QuestionarioState extends State<Questionario> {
                 style: TextStyle(fontSize: 16),
               ),
               onPressed: () {
-                Navigator.popUntil(context, (route) => route.isFirst);
+                if(valor.verificaGps(latitude, longitude) != ""){
+                  showConfirma(valor.verificaGps(latitude, longitude));
+                } else if(valor.verificaQuesitosRespondidos(quesito1, quesito2, quesito3, quesito4, quesito5, quesito6) != ""){
+                  showMsg(valor.verificaQuesitosRespondidos(quesito1, quesito2, quesito3, quesito4, quesito5, quesito6));
+                } else{
+                  final dom = DomicilioModel(
+                    id: widget.domicilio.id,
+                    controle: widget.domicilio.controle,
+                    endereco: widget.domicilio.endereco,
+                    estado: widget.domicilio.estado,
+                    municipio: widget.domicilio.municipio,
+                    tipoEntrevista: widget.domicilio.tipoEntrevista,
+                    status: "Finalizada",
+                    quesito1: quesito1,
+                    quesito2: quesito2,
+                    quesito3: quesito3,
+                    quesito4: quesito4,
+                    quesito5: quesito5,
+                    quesito6: quesito6,
+                    latitude: latitude,
+                    longitude: longitude,
+                  );
+                  salvaQuestionario(dom);
+                }
               },
-            )
+            ),
           ],
         ),
       ),
     );
+  }
+
+  showConfirma(String text){
+    return showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text('Atenção'),
+        content: Text(text),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'Cancela'),
+            child: const Text('Cancela'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context, 'Confirma');
+              if(quesito1 == 'Selecione'){
+                showMsg('Favor preencher o quesito 1.1.');
+              }else{
+                final dom = DomicilioModel(
+                  id: widget.domicilio.id,
+                  controle: widget.domicilio.controle,
+                  endereco: widget.domicilio.endereco,
+                  estado: widget.domicilio.estado,
+                  municipio: widget.domicilio.municipio,
+                  tipoEntrevista: widget.domicilio.tipoEntrevista,
+                  status: "Finalizada",
+                  quesito1: quesito1,
+                  quesito2: quesito2,
+                  quesito3: quesito3,
+                  quesito4: quesito4,
+                  quesito5: quesito5,
+                  quesito6: quesito6,
+                  latitude: latitude,
+                  longitude: longitude,
+                );
+                salvaQuestionario(dom);
+              }
+            },
+            child: const Text('Confirma'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  showMsg(String text){
+    return showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text('Questionário Inválido!'),
+        content: Text(text),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'OK'),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  salvaQuestionario(DomicilioModel domicilio){
+    updateUser(domicilio);
+    Navigator.popUntil(context, (route) => route.isFirst);
+  }
+
+  Future updateUser(DomicilioModel domicilio) async {
+    final docUser = FirebaseFirestore.instance.collection('domicilios').doc(domicilio.id);
+
+    final json = domicilio.toJson();
+    await docUser.update(json);
   }
 
   FutureOr<LocationData> pegarLocalizacao() async {

@@ -129,13 +129,21 @@ class _AberturaDomicilioState extends State<AberturaDomicilio> {
           municipio: widget.domicilio.municipio,
           tipoEntrevista: tipoEntrevista,
           status: "Em andamento",
+          quesito1: widget.domicilio.quesito1,
+          quesito2: widget.domicilio.quesito2,
+          quesito3: widget.domicilio.quesito3,
+          quesito4: widget.domicilio.quesito4,
+          quesito5: widget.domicilio.quesito5,
+          quesito6: widget.domicilio.quesito6,
+          latitude: widget.domicilio.latitude,
+          longitude: widget.domicilio.longitude,
       );
       updateUser(dom);
       Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => Questionario(
-            domicilio: widget.domicilio,
+            domicilio: dom,
           ),
         ),
       );
@@ -148,6 +156,14 @@ class _AberturaDomicilioState extends State<AberturaDomicilio> {
         municipio: widget.domicilio.municipio,
         tipoEntrevista: tipoEntrevista,
         status: "Finalizada",
+        quesito1: widget.domicilio.quesito1,
+        quesito2: widget.domicilio.quesito2,
+        quesito3: widget.domicilio.quesito3,
+        quesito4: widget.domicilio.quesito4,
+        quesito5: widget.domicilio.quesito5,
+        quesito6: widget.domicilio.quesito6,
+        latitude: widget.domicilio.latitude,
+        longitude: widget.domicilio.longitude,
       );
 
       updateUser(dom);

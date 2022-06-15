@@ -55,6 +55,14 @@ class _SelecaoDomicilioPageState extends State<SelecaoDomicilioPage> {
       'municipio': faker.address.countryCode(),
       'tipoEntrevista': "Selecione",
       'status': "Não Iniciado",
+      'quesito1': "Selecione",
+      'quesito2': "Selecione",
+      'quesito3': "Selecione",
+      'quesito4': "Selecione",
+      'quesito5': "Selecione",
+      'quesito6': "Selecione",
+      'latitude': "",
+      'longitude': "",
     };
 
     /// Create document and write data to Firebase
