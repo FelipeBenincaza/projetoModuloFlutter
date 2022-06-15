@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:projetopesquisa/components/campo_informacao.dart';
 import 'package:projetopesquisa/models/domicilio.dart';
+import 'package:projetopesquisa/models/domicilio_model.dart';
 import 'package:projetopesquisa/pages/questionario.dart';
 import 'package:projetopesquisa/pages/selecaoDomicilio.dart';
 
 import '../controller/domicilios_controller.dart';
 
 class AberturaDomicilio extends StatefulWidget {
-  late Domicilio domicilio;
+  late DomicilioModel domicilio;
 
   AberturaDomicilio({Key? key, required this.domicilio}) : super(key: key);
 
@@ -122,7 +123,7 @@ class _AberturaDomicilioState extends State<AberturaDomicilio> {
 
   _clickButton(){
     if (tipoEntrevista == "Realizar"){
-      widget.domicilio.status = "Em Andamento";
+      /*widget.domicilio.status = "Em Andamento";
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -130,9 +131,8 @@ class _AberturaDomicilioState extends State<AberturaDomicilio> {
             domicilio: widget.domicilio,
           ),
         ),
-      );
+      );*/
     }else {
-      widget.domicilio.status = "Finalizada";
       Navigator.push(
         context,
         MaterialPageRoute(

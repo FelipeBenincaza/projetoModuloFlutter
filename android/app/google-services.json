@@ -29,6 +29,13 @@
             {
               "client_id": "908120428877-88amd66gvltmn3oghd6mqoaquock66de.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "908120428877-vduja0r5jt5e5rs4qgl45so7nd6inghn.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "br.edu.infnet.projeto.modulo.projetopesquisa"
+              }
             }
           ]
         }

@@ -74,12 +74,12 @@ class _SelecaoDomicilioState extends State<SelecaoDomicilio> {
                             subtitle: Text(
                                 "Status: ${domiciliosController.listDomicilios[index].status.toString()}"),
                             onTap: () {
-                              Navigator.push(
+                              /*Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => AberturaDomicilio(domicilio: domiciliosController.listDomicilios[index],)
                                 ),
-                              );
+                              );*/
                             },
                             leading: const Icon(
                               Icons.article_outlined,
