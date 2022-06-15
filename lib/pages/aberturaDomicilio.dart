@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:projetopesquisa/components/campo_informacao.dart';
-import 'package:projetopesquisa/models/domicilio.dart';
 import 'package:projetopesquisa/models/domicilio_model.dart';
 import 'package:projetopesquisa/pages/questionario.dart';
-import 'package:projetopesquisa/pages/selecaoDomicilio.dart';
-
-import '../controller/domicilios_controller.dart';
+import 'package:projetopesquisa/pages/selecao_domicilio_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AberturaDomicilio extends StatefulWidget {
   late DomicilioModel domicilio;
@@ -89,7 +87,7 @@ class _AberturaDomicilioState extends State<AberturaDomicilio> {
                   ],
                   value: tipoEntrevista,
                   onChanged: setValorDrop,
-                  iconEnabledColor: Colors.green,
+                  iconEnabledColor: Colors.lightBlue,
                   isExpanded: true,
                 ),
               ),
@@ -123,7 +121,16 @@ class _AberturaDomicilioState extends State<AberturaDomicilio> {
 
   _clickButton(){
     if (tipoEntrevista == "Realizar"){
-      /*widget.domicilio.status = "Em Andamento";
+      final dom = DomicilioModel(
+        id: widget.domicilio.id,
+          controle: widget.domicilio.controle,
+          endereco: widget.domicilio.endereco,
+          estado: widget.domicilio.estado,
+          municipio: widget.domicilio.municipio,
+          tipoEntrevista: tipoEntrevista,
+          status: "Em andamento",
+      );
+      updateUser(dom);
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -131,14 +138,28 @@ class _AberturaDomicilioState extends State<AberturaDomicilio> {
             domicilio: widget.domicilio,
           ),
         ),
-      );*/
-    }else {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => SelecaoDomicilio(),
-        ),
       );
+    }else {
+      final dom = DomicilioModel(
+        id: widget.domicilio.id,
+        controle: widget.domicilio.controle,
+        endereco: widget.domicilio.endereco,
+        estado: widget.domicilio.estado,
+        municipio: widget.domicilio.municipio,
+        tipoEntrevista: tipoEntrevista,
+        status: "Finalizada",
+      );
+
+      updateUser(dom);
+
+      Navigator.pop(context);
     }
+  }
+
+  Future updateUser(DomicilioModel domicilio) async {
+    final docUser = FirebaseFirestore.instance.collection('domicilios').doc(domicilio.id);
+
+    final json = domicilio.toJson();
+    await docUser.update(json);
   }
 }

@@ -2,13 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:projetopesquisa/components/quesito.dart';
-import 'package:projetopesquisa/pages/selecaoDomicilio.dart';
+import 'package:projetopesquisa/models/domicilio_model.dart';
+import 'package:projetopesquisa/pages/selecao_domicilio_page.dart';
 
-import '../models/domicilio.dart';
+import 'package:pesquisapack/pesquisapack.dart';
 import 'package:location/location.dart';
 
 class Questionario extends StatefulWidget {
-  late Domicilio domicilio;
+  late DomicilioModel domicilio;
   Questionario({Key? key, required this.domicilio}) : super(key: key);
 
   @override
@@ -75,12 +76,7 @@ class _QuestionarioState extends State<Questionario> {
                 style: TextStyle(fontSize: 16),
               ),
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const SelecaoDomicilio()
-                  ),
-                );
+                Navigator.popUntil(context, (route) => route.isFirst);
               },
             )
           ],

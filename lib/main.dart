@@ -2,8 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:projetopesquisa/pages/auth_page.dart';
-import 'package:projetopesquisa/pages/home_page.dart';
-import 'package:projetopesquisa/pages/selecaoDomicilio.dart';
+import 'package:projetopesquisa/pages/selecao_domicilio_page.dart';
 
 import 'firebase_options.dart';
 import 'helper/helpers_auth.dart';
@@ -49,7 +48,7 @@ class Login extends StatelessWidget {
         }else if(snapshot.hasError){
           return const Center(child: Text("Erro ao logar!"));
         }else if(snapshot.hasData){
-          return const HomePage();
+          return const SelecaoDomicilioPage();
         }else{
           return const AuthPage();
         }

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:faker/faker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -17,13 +19,13 @@ class TempHomePage extends StatelessWidget {
     );
   }
 }
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class SelecaoDomicilioPage extends StatefulWidget {
+  const SelecaoDomicilioPage({Key? key}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _SelecaoDomicilioPageState createState() => _SelecaoDomicilioPageState();
 }
-class _HomePageState extends State<HomePage> {
+class _SelecaoDomicilioPageState extends State<SelecaoDomicilioPage> {
   final controller = TextEditingController();
 
   @override
@@ -47,7 +49,7 @@ class _HomePageState extends State<HomePage> {
 
     final json = {
       'id': docUser.id,
-      'controle': faker.hashCode,
+      'controle': Random().nextInt(1000000000) + 100000000,
       'endereco': faker.address.streetAddress(),
       'estado': faker.address.state(),
       'municipio': faker.address.countryCode(),
