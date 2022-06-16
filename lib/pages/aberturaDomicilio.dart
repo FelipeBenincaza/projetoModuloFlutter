@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:projetopesquisa/components/campo_informacao.dart';
 import 'package:projetopesquisa/models/domicilio_model.dart';
 import 'package:projetopesquisa/pages/questionario.dart';
-import 'package:projetopesquisa/pages/selecao_domicilio_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AberturaDomicilio extends StatefulWidget {
@@ -65,12 +64,14 @@ class _AberturaDomicilioState extends State<AberturaDomicilio> {
               const Text( "Tipo de Entrevista:", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),) :
               const Text( "Tipo de Entrevista:", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),),
             Card(
+              key: const ValueKey('Card1'),
               elevation: 5,
               margin: const EdgeInsets.fromLTRB(0, 5, 5, 10),
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(12, 8, 8, 8),
                 child: sentido == Orientation.portrait ?
                 DropdownButton(
+                  key: const ValueKey('dropButton'),
                   items: const [
                     DropdownMenuItem(
                       child: Text('Selecione'),
@@ -95,20 +96,25 @@ class _AberturaDomicilioState extends State<AberturaDomicilio> {
                   isExpanded: true,
                 ) :
                 DropdownButton(
+                  key: const ValueKey('dropButton'),
                   items: const [
                     DropdownMenuItem(
+                      key: ValueKey('item1'),
                       child: Text('Selecione', style: TextStyle(fontSize: 24)),
                       value: 'Selecione',
                     ),
                     DropdownMenuItem(
+                      key: ValueKey('item2'),
                       child: Text('Realizar', style: TextStyle(fontSize: 24)),
                       value: 'Realizar',
                     ),
                     DropdownMenuItem(
+                      key: ValueKey('item3'),
                       child: Text('Recusa', style: TextStyle(fontSize: 24)),
                       value: 'Recusa',
                     ),
                     DropdownMenuItem(
+                      key: ValueKey('item4'),
                       child: Text('Morador não encontrado', style: TextStyle(fontSize: 24)),
                       value: 'Morador não encontrado',
                     ),
@@ -122,6 +128,7 @@ class _AberturaDomicilioState extends State<AberturaDomicilio> {
             ),
             isTipoEntrevistaRealizar ?
             ElevatedButton.icon(
+              key: const ValueKey('button'),
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size.fromHeight(50),
               ),

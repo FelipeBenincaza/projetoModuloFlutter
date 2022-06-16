@@ -4,6 +4,7 @@ import 'package:faker/faker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:projetopesquisa/pages/domicilio_page.dart';
 import 'package:projetopesquisa/widget/list_domicilios_widget.dart';
 
 class TempHomePage extends StatelessWidget {
@@ -40,7 +41,14 @@ class _SelecaoDomicilioPageState extends State<SelecaoDomicilioPage> {
         actions: [
           IconButton(
             icon: const Icon(Icons.add),
-            onPressed: createDomicilio,
+            onPressed: (){
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DomicilioPage(),
+                ),
+              );
+            },
           ),
           IconButton(onPressed: sair, icon: Icon(Icons.exit_to_app)),
         ],

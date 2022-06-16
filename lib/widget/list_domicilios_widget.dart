@@ -59,9 +59,9 @@ class _ListDomiciliosWidgetState extends State<ListDomiciliosWidget> {
           motion: const ScrollMotion(),
           children: [
             SlidableAction(
-              label: 'Enviar',
+              label: 'Excluir',
               backgroundColor: Colors.green,
-              icon: Icons.update,
+              icon: Icons.delete,
               onPressed: (BuildContext context) async{
                 deleteUser(domicilio);
                 final snackBar = SnackBar(

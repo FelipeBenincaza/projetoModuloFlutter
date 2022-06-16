@@ -48,6 +48,15 @@ class _QuestionarioState extends State<Questionario> {
     localizacao = await pegarLocalizacao();
     latitude = localizacao.latitude.toString();
     longitude = localizacao.longitude.toString();
+
+    final snackBar = SnackBar(
+      backgroundColor: Colors.green,
+      content: Text(
+        'Latitude: $latitude  e Longitude: $longitude',
+        style: const TextStyle(fontSize: 24),
+      ),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   @override
