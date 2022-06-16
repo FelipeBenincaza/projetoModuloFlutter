@@ -135,6 +135,7 @@ class _AberturaDomicilioState extends State<AberturaDomicilio> {
           quesito4: widget.domicilio.quesito4,
           quesito5: widget.domicilio.quesito5,
           quesito6: widget.domicilio.quesito6,
+          quesito7: widget.domicilio.quesito7,
           latitude: widget.domicilio.latitude,
           longitude: widget.domicilio.longitude,
       );
@@ -162,6 +163,7 @@ class _AberturaDomicilioState extends State<AberturaDomicilio> {
         quesito4: widget.domicilio.quesito4,
         quesito5: widget.domicilio.quesito5,
         quesito6: widget.domicilio.quesito6,
+        quesito7: widget.domicilio.quesito7,
         latitude: widget.domicilio.latitude,
         longitude: widget.domicilio.longitude,
       );

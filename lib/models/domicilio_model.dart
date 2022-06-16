@@ -14,6 +14,7 @@ class DomicilioModel {
   final String quesito4;
   final String quesito5;
   final String quesito6;
+  final String quesito7;
   final String latitude;
   final String longitude;
 
@@ -31,6 +32,7 @@ class DomicilioModel {
     required this.quesito4,
     required this.quesito5,
     required this.quesito6,
+    required this.quesito7,
     required this.latitude,
     required this.longitude,
   });
@@ -50,6 +52,7 @@ class DomicilioModel {
     'quesito4': quesito4,
     'quesito5': quesito5,
     'quesito6': quesito6,
+    'quesito7': quesito7,
     'latitude': latitude,
     'longitude': longitude,
   };
@@ -68,6 +71,7 @@ class DomicilioModel {
     quesito4: json['quesito4'],
     quesito5: json['quesito5'],
     quesito6: json['quesito6'],
+    quesito7: json['quesito7'],
     latitude: json['latitude'],
     longitude: json['longitude'],
   );

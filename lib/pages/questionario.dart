@@ -10,6 +10,7 @@ import 'package:location/location.dart';
 
 class Questionario extends StatefulWidget {
   late DomicilioModel domicilio;
+  bool semGps = true;
   Questionario({Key? key, required this.domicilio}) : super(key: key);
 
   @override
@@ -23,6 +24,7 @@ class _QuestionarioState extends State<Questionario> {
   late String quesito4;
   late String quesito5;
   late String quesito6;
+  late String quesito7;
   late LocationData localizacao;
   late String latitude;
   late String longitude;
@@ -37,6 +39,7 @@ class _QuestionarioState extends State<Questionario> {
     quesito4 = widget.domicilio.quesito4;
     quesito5 = widget.domicilio.quesito5;
     quesito6 = widget.domicilio.quesito6;
+    quesito7 = widget.domicilio.quesito7;
     latitude = widget.domicilio.latitude;
     longitude = widget.domicilio.longitude;
   }
@@ -50,6 +53,8 @@ class _QuestionarioState extends State<Questionario> {
   @override
   Widget build(BuildContext context) {
     final valor = ValidaQuestionario();
+    final List<String> itemList1 = ['Selecione', 'Sim', 'Não'];
+    final List<String> itemList2 = ['Selecione', 'Queimado (na propriedade)', 'Enterrado (na propriedade)', 'Jogado em terreno baldio ou logradouro', 'Outro destino',];
 
     return Scaffold(
       appBar: AppBar(
@@ -66,13 +71,14 @@ class _QuestionarioState extends State<Questionario> {
           children: [
             const Text('1. Nas redondezas ou arredores do seu domicílio:',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
-            Quesito(texto: '1.1. Existe iluminação pública?', valor: quesito1, function: setQuesito1),
-            Quesito(texto: '1.2. Existe transporte coletivo como ônibus, van, trem, metrô etc.?', valor: quesito2, function: setQuesito2),
-            Quesito(texto: '1.3. Existe creche ou escola pública?', valor: quesito3, function: setQuesito3),
-            Quesito(texto: '1.4. Existe posto de saúde ou outro centro de atendimento de saúde público?', valor: quesito4, function: setQuesito4),
-            Quesito(texto: '1.5. Existe policiamento?', valor: quesito5, function: setQuesito5),
-            Quesito(texto: '1.6. Existe coleta de lixo?', valor: quesito6, function: setQuesito6),
-            const SizedBox(height: 20),
+            Quesito(texto: '1.1 - Existe iluminação pública?', valor: quesito1, function: setQuesito1, items: itemList1,),
+            Quesito(texto: '1.2 - Existe transporte coletivo como ônibus, van, trem, metrô etc.?', valor: quesito2, function: setQuesito2, items: itemList1,),
+            Quesito(texto: '1.3 - Existe creche ou escola pública?', valor: quesito3, function: setQuesito3, items: itemList1,),
+            Quesito(texto: '1.4 - Existe posto de saúde ou outro centro de atendimento de saúde público?', valor: quesito4, function: setQuesito4, items: itemList1,),
+            Quesito(texto: '1.5 - Existe policiamento?', valor: quesito5, function: setQuesito5, items: itemList1,),
+            Quesito(texto: '1.6 - Existe coleta de lixo?', valor: quesito6, function: setQuesito6, items: itemList1,),
+            quesito6 == 'Não' ? Quesito(texto: '1.6.1 - Qual é o (principal) destino dado ao lixo?', valor: quesito7, function: setQuesito7, items: itemList2,) : const SizedBox(height: 2),
+            const SizedBox(height: 15),
             ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size.fromHeight(50),
@@ -83,29 +89,14 @@ class _QuestionarioState extends State<Questionario> {
                 style: TextStyle(fontSize: 16),
               ),
               onPressed: () {
-                if(valor.verificaGps(latitude, longitude) != ""){
+                if(valor.verificaGps(latitude, longitude) != "" && widget.semGps){
                   showConfirma(valor.verificaGps(latitude, longitude));
                 } else if(valor.verificaQuesitosRespondidos(quesito1, quesito2, quesito3, quesito4, quesito5, quesito6) != ""){
                   showMsg(valor.verificaQuesitosRespondidos(quesito1, quesito2, quesito3, quesito4, quesito5, quesito6));
+                }else if(valor.verificaQuesito7(quesito6, quesito7) != ""){
+                  showMsg(valor.verificaQuesito7(quesito6, quesito7));
                 } else{
-                  final dom = DomicilioModel(
-                    id: widget.domicilio.id,
-                    controle: widget.domicilio.controle,
-                    endereco: widget.domicilio.endereco,
-                    estado: widget.domicilio.estado,
-                    municipio: widget.domicilio.municipio,
-                    tipoEntrevista: widget.domicilio.tipoEntrevista,
-                    status: "Finalizada",
-                    quesito1: quesito1,
-                    quesito2: quesito2,
-                    quesito3: quesito3,
-                    quesito4: quesito4,
-                    quesito5: quesito5,
-                    quesito6: quesito6,
-                    latitude: latitude,
-                    longitude: longitude,
-                  );
-                  salvaQuestionario(dom);
+                  salvaQuestionario();
                 }
               },
             ),
@@ -116,6 +107,7 @@ class _QuestionarioState extends State<Questionario> {
   }
 
   showConfirma(String text){
+    final valor = ValidaQuestionario();
     return showDialog<String>(
       context: context,
       builder: (BuildContext context) => AlertDialog(
@@ -128,28 +120,14 @@ class _QuestionarioState extends State<Questionario> {
           ),
           TextButton(
             onPressed: () {
+              widget.semGps = false;
               Navigator.pop(context, 'Confirma');
-              if(quesito1 == 'Selecione'){
-                showMsg('Favor preencher o quesito 1.1.');
-              }else{
-                final dom = DomicilioModel(
-                  id: widget.domicilio.id,
-                  controle: widget.domicilio.controle,
-                  endereco: widget.domicilio.endereco,
-                  estado: widget.domicilio.estado,
-                  municipio: widget.domicilio.municipio,
-                  tipoEntrevista: widget.domicilio.tipoEntrevista,
-                  status: "Finalizada",
-                  quesito1: quesito1,
-                  quesito2: quesito2,
-                  quesito3: quesito3,
-                  quesito4: quesito4,
-                  quesito5: quesito5,
-                  quesito6: quesito6,
-                  latitude: latitude,
-                  longitude: longitude,
-                );
-                salvaQuestionario(dom);
+              if(valor.verificaQuesitosRespondidos(quesito1, quesito2, quesito3, quesito4, quesito5, quesito6) != ""){
+                showMsg(valor.verificaQuesitosRespondidos(quesito1, quesito2, quesito3, quesito4, quesito5, quesito6));
+              }else if(valor.verificaQuesito7(quesito6, quesito7) != ""){
+                showMsg(valor.verificaQuesito7(quesito6, quesito7));
+              } else{
+                salvaQuestionario();
               }
             },
             child: const Text('Confirma'),
@@ -175,7 +153,29 @@ class _QuestionarioState extends State<Questionario> {
     );
   }
 
-  salvaQuestionario(DomicilioModel domicilio){
+  salvaQuestionario(){
+    final dom = DomicilioModel(
+      id: widget.domicilio.id,
+      controle: widget.domicilio.controle,
+      endereco: widget.domicilio.endereco,
+      estado: widget.domicilio.estado,
+      municipio: widget.domicilio.municipio,
+      tipoEntrevista: widget.domicilio.tipoEntrevista,
+      status: "Finalizada",
+      quesito1: quesito1,
+      quesito2: quesito2,
+      quesito3: quesito3,
+      quesito4: quesito4,
+      quesito5: quesito5,
+      quesito6: quesito6,
+      quesito7: quesito7,
+      latitude: latitude,
+      longitude: longitude,
+    );
+    salvar(dom);
+  }
+
+  salvar(DomicilioModel domicilio){
     updateUser(domicilio);
     Navigator.popUntil(context, (route) => route.isFirst);
   }
@@ -261,6 +261,17 @@ class _QuestionarioState extends State<Questionario> {
     if(select is String){
       setState((){
         quesito6 = select;
+        if (quesito6 != 'Não') {
+          quesito7 = 'Selecione';
+        }
+      });
+    }
+  }
+
+  void setQuesito7(String? select){
+    if(select is String){
+      setState((){
+        quesito7 = select;
       });
     }
   }

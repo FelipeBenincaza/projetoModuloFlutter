@@ -61,6 +61,7 @@ class _SelecaoDomicilioPageState extends State<SelecaoDomicilioPage> {
       'quesito4': "Selecione",
       'quesito5': "Selecione",
       'quesito6': "Selecione",
+      'quesito7': "Selecione",
       'latitude': "",
       'longitude': "",
     };

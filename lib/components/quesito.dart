@@ -4,13 +4,15 @@ class Quesito extends StatelessWidget {
   final String texto;
   final String valor;
   final Function(String?) function;
+  final List<String> items;
 
-  Quesito(
-      {Key? key,
-      required this.texto,
-      required this.valor,
-      required this.function})
-      : super(key: key);
+  Quesito({
+    Key? key,
+    required this.texto,
+    required this.valor,
+    required this.function,
+    required this.items,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,25 +23,15 @@ class Quesito extends StatelessWidget {
         const SizedBox(height: 20),
         Text(
           texto,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 18,
           ),
         ),
         DropdownButton(
-          items: const [
-            DropdownMenuItem(
-              child: Text('Selecione'),
-              value: 'Selecione',
-            ),
-            DropdownMenuItem(
-              child: Text('Sim'),
-              value: 'Sim',
-            ),
-            DropdownMenuItem(
-              child: Text('Não'),
-              value: 'Não',
-            ),
-          ],
+          items: items.map((item) => DropdownMenuItem(
+            child: Text(item),
+            value: item,
+          ),).toList(),
           value: valor,
           onChanged: function,
           iconEnabledColor: Colors.green,
