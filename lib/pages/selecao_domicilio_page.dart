@@ -29,19 +29,25 @@ class _SelecaoDomicilioPageState extends State<SelecaoDomicilioPage> {
   final controller = TextEditingController();
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(
-      title: Text('Seleção dos Domicílios'),
-      actions: [
-        IconButton(
-          icon: const Icon(Icons.add),
-          onPressed: createDomicilio,
-        ),
-        IconButton(onPressed: sair, icon: Icon(Icons.exit_to_app)),
-      ],
-    ),
-    body: const TempHomePage(),
-  );
+  Widget build(BuildContext context) {
+    final sentido = MediaQuery.of(context).orientation;
+
+    return Scaffold(
+      appBar: AppBar(
+        title: sentido == Orientation.portrait ?
+                const Text('Seleção dos Domicílios') :
+                const Text('Seleção dos Domicílios', style: TextStyle(fontSize: 32),),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.add),
+            onPressed: createDomicilio,
+          ),
+          IconButton(onPressed: sair, icon: Icon(Icons.exit_to_app)),
+        ],
+      ),
+      body: const TempHomePage(),
+    );
+  }
 
   Future createDomicilio() async {
     /// Reference to document

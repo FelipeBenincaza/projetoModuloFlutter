@@ -36,69 +36,68 @@ class _SignUpWidgetState extends State<SignUpWidget> {
   }
 
   @override
-  Widget build(BuildContext context) => SingleChildScrollView(
-    padding: const EdgeInsets.all(16),
-    child: Form(
-      key: formKey,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const SizedBox(height: 60),
-          const FlutterLogo(size: 120),
-          const SizedBox(height: 20),
-          const Text(
-            'Pesquisa Domiciliar',
-            textAlign: TextAlign.center,
-            style:  TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 40),
-          TextFormField(
-            controller: emailController,
-            cursorColor: Colors.white,
-            textInputAction: TextInputAction.next,
-            decoration: const InputDecoration(labelText: 'Email'),
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            validator: (email) =>
-            email != null && !EmailValidator.validate(email)
-                ? 'Enter a valid email'
-                : null,
-          ),
-          const SizedBox(height: 4),
-          TextFormField(
-            controller: passwordController,
-            textInputAction: TextInputAction.next,
-            decoration: const InputDecoration(labelText: 'Senha'),
-            obscureText: true,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            validator: (value) => value != null && value.trim().length < 6
-                ? 'Enter min. 6 characters'
-                : null,
-          ),
-          const SizedBox(height: 4),
-          TextFormField(
-            controller: confirmPasswordController,
-            textInputAction: TextInputAction.done,
-            decoration: const InputDecoration(labelText: 'Confirme a senha'),
-            obscureText: true,
-            validator: (value) =>
-            passwordController.text != confirmPasswordController.text
-                ? 'Senhas não coincidem'
-                : null,
-          ),
-          const SizedBox(height: 20),
-          ElevatedButton.icon(
-            style: ElevatedButton.styleFrom(
-              minimumSize: const Size.fromHeight(50),
+  Widget build(BuildContext context) => Center(
+    child: SingleChildScrollView(
+      padding: const EdgeInsets.all(16),
+      child: Form(
+        key: formKey,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              'Pesquisa Domiciliar',
+              textAlign: TextAlign.center,
+              style:  TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
             ),
-            icon: const Icon(Icons.arrow_forward, size: 32),
-            label: const Text(
-              'Cadastrar',
-              style:  TextStyle(fontSize: 24),
+            const SizedBox(height: 40),
+            TextFormField(
+              controller: emailController,
+              cursorColor: Colors.white,
+              textInputAction: TextInputAction.next,
+              decoration: const InputDecoration(labelText: 'Email'),
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              validator: (email) =>
+              email != null && !EmailValidator.validate(email)
+                  ? 'Enter a valid email'
+                  : null,
             ),
-            onPressed: signUp,
-          ),
-          const SizedBox(height: 20),
-        ],
+            const SizedBox(height: 4),
+            TextFormField(
+              controller: passwordController,
+              textInputAction: TextInputAction.next,
+              decoration: const InputDecoration(labelText: 'Senha'),
+              obscureText: true,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              validator: (value) => value != null && value.trim().length < 6
+                  ? 'Enter min. 6 characters'
+                  : null,
+            ),
+            const SizedBox(height: 4),
+            TextFormField(
+              controller: confirmPasswordController,
+              textInputAction: TextInputAction.done,
+              decoration: const InputDecoration(labelText: 'Confirme a senha'),
+              obscureText: true,
+              validator: (value) =>
+              passwordController.text != confirmPasswordController.text
+                  ? 'Senhas não coincidem'
+                  : null,
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton.icon(
+              style: ElevatedButton.styleFrom(
+                minimumSize: const Size.fromHeight(50),
+              ),
+              icon: const Icon(Icons.arrow_forward, size: 32),
+              label: const Text(
+                'Cadastrar',
+                style:  TextStyle(fontSize: 24),
+              ),
+              onPressed: signUp,
+            ),
+            const SizedBox(height: 20),
+          ],
+        ),
       ),
     ),
   );

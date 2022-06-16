@@ -50,7 +50,10 @@ class _ListDomiciliosWidgetState extends State<ListDomiciliosWidget> {
         },
       );
 
-  Widget buildUser(DomicilioModel domicilio) =>Slidable(
+  Widget buildUser(DomicilioModel domicilio) {
+    final sentido = MediaQuery.of(context).orientation;
+
+    return Slidable(
       key: Key(domicilio.id.toString()),
       endActionPane: ActionPane(
           motion: const ScrollMotion(),
@@ -63,9 +66,14 @@ class _ListDomiciliosWidgetState extends State<ListDomiciliosWidget> {
                 deleteUser(domicilio);
                 final snackBar = SnackBar(
                   backgroundColor: Colors.blueAccent,
-                  content: Text(
+                  content: sentido == Orientation.portrait ?
+                  Text(
                     'Controle ${domicilio.controle} foi excluído!',
                     style: const TextStyle(fontSize: 24),
+                  ) :
+                  Text(
+                    'Controle ${domicilio.controle} foi excluído!',
+                    style: const TextStyle(fontSize: 28),
                   ),
                 );
                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -76,15 +84,20 @@ class _ListDomiciliosWidgetState extends State<ListDomiciliosWidget> {
         elevation: 5,
         child: ListTile(
           leading: CircleAvatar(
-              child: tipoIcon(domicilio.status),),
-          title: Text("Controle: ${domicilio.controle.toString()}"),
-          subtitle: Text("Status: ${domicilio.status.toString()}"),
+            child: tipoIcon(domicilio.status),),
+          title: sentido == Orientation.portrait ?
+            Text("Controle: ${domicilio.controle.toString()}") :
+            Text("Controle: ${domicilio.controle.toString()}", style: const TextStyle(fontSize: 22)),
+          subtitle: sentido == Orientation.portrait ?
+            Text("Status: ${domicilio.status.toString()}") :
+            Text("Status: ${domicilio.status.toString()}", style: const TextStyle(fontSize: 22)),
           onTap: () => Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => AberturaDomicilio(domicilio: domicilio),
           )),
         ),
       ),
-  );
+    );
+  }
 
   tipoIcon(String status){
     if(status == 'Finalizada'){

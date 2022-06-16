@@ -52,13 +52,16 @@ class _QuestionarioState extends State<Questionario> {
 
   @override
   Widget build(BuildContext context) {
+    final sentido = MediaQuery.of(context).orientation;
     final valor = ValidaQuestionario();
     final List<String> itemList1 = ['Selecione', 'Sim', 'Não'];
     final List<String> itemList2 = ['Selecione', 'Queimado (na propriedade)', 'Enterrado (na propriedade)', 'Jogado em terreno baldio ou logradouro', 'Outro destino',];
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Questionário Domicílio'),
+        title: sentido == Orientation.portrait ?
+                const Text('Questionário Domicílio') :
+                const Text('Questionário Domicílio', style: TextStyle(fontSize: 32),),
         actions: [
           IconButton(onPressed: _buttonLocalizacao, icon: const Icon(Icons.gps_fixed_outlined)),
         ],
@@ -69,8 +72,12 @@ class _QuestionarioState extends State<Questionario> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisSize: MainAxisSize.min,
           children: [
+            sentido == Orientation.portrait ?
             const Text('1. Nas redondezas ou arredores do seu domicílio:',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold,),
+            ) :
+            const Text('1. Nas redondezas ou arredores do seu domicílio:',
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),),
             Quesito(texto: '1.1 - Existe iluminação pública?', valor: quesito1, function: setQuesito1, items: itemList1,),
             Quesito(texto: '1.2 - Existe transporte coletivo como ônibus, van, trem, metrô etc.?', valor: quesito2, function: setQuesito2, items: itemList1,),
             Quesito(texto: '1.3 - Existe creche ou escola pública?', valor: quesito3, function: setQuesito3, items: itemList1,),
@@ -84,10 +91,9 @@ class _QuestionarioState extends State<Questionario> {
                 minimumSize: const Size.fromHeight(50),
               ),
               icon: const Icon(Icons.save, size: 32),
-              label: const Text(
-                'Salvar Questionario',
-                style: TextStyle(fontSize: 16),
-              ),
+              label: sentido == Orientation.portrait ?
+                      const Text('Salvar Questionario', style: TextStyle(fontSize: 16),) :
+                      const Text('Salvar Questionario', style: TextStyle(fontSize: 26),),
               onPressed: () {
                 if(valor.verificaGps(latitude, longitude) != "" && widget.semGps){
                   showConfirma(valor.verificaGps(latitude, longitude));

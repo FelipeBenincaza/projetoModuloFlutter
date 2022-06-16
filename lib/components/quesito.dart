@@ -16,22 +16,32 @@ class Quesito extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final sentido = MediaQuery.of(context).orientation;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: [
-        const SizedBox(height: 20),
+        const SizedBox(height: 10),
         Text(
           texto,
-          style: const TextStyle(
+          style: sentido == Orientation.portrait ?
+          const TextStyle(
             fontSize: 18,
+          ) : const TextStyle(
+            fontSize: 22,
           ),
         ),
         DropdownButton(
           items: items.map((item) => DropdownMenuItem(
-            child: Text(item),
-            value: item,
-          ),).toList(),
+                  child: Text(
+                    item,
+                    style: sentido == Orientation.portrait ?
+                    const TextStyle( fontSize: 16,) :
+                    const TextStyle( fontSize: 22,),
+                  ),
+                  value: item,
+                ),).toList(),
           value: valor,
           onChanged: function,
           iconEnabledColor: Colors.green,

@@ -38,9 +38,13 @@ class _AberturaDomicilioState extends State<AberturaDomicilio> {
 
   @override
   Widget build(BuildContext context) {
+    final sentido = MediaQuery.of(context).orientation;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Abertura do Domicílio'),
+        title: sentido == Orientation.portrait ?
+        const Text('Abertura do Domicílio') :
+        const Text('Abertura do Domicílio', style: TextStyle(fontSize: 32),),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
@@ -57,16 +61,16 @@ class _AberturaDomicilioState extends State<AberturaDomicilio> {
                 campo: "Município:", informacao: widget.domicilio.municipio),
             CampoInformacao(
                 campo: "Estado:", informacao: widget.domicilio.estado),
-            const Text(
-              "Tipo de Entrevista:",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
+            sentido == Orientation.portrait ?
+              const Text( "Tipo de Entrevista:", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),) :
+              const Text( "Tipo de Entrevista:", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),),
             Card(
               elevation: 5,
               margin: const EdgeInsets.fromLTRB(0, 5, 5, 10),
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(12, 8, 8, 8),
-                child: DropdownButton(
+                child: sentido == Orientation.portrait ?
+                DropdownButton(
                   items: const [
                     DropdownMenuItem(
                       child: Text('Selecione'),
@@ -89,6 +93,30 @@ class _AberturaDomicilioState extends State<AberturaDomicilio> {
                   onChanged: setValorDrop,
                   iconEnabledColor: Colors.lightBlue,
                   isExpanded: true,
+                ) :
+                DropdownButton(
+                  items: const [
+                    DropdownMenuItem(
+                      child: Text('Selecione', style: TextStyle(fontSize: 24)),
+                      value: 'Selecione',
+                    ),
+                    DropdownMenuItem(
+                      child: Text('Realizar', style: TextStyle(fontSize: 24)),
+                      value: 'Realizar',
+                    ),
+                    DropdownMenuItem(
+                      child: Text('Recusa', style: TextStyle(fontSize: 24)),
+                      value: 'Recusa',
+                    ),
+                    DropdownMenuItem(
+                      child: Text('Morador não encontrado', style: TextStyle(fontSize: 24)),
+                      value: 'Morador não encontrado',
+                    ),
+                  ],
+                  value: tipoEntrevista,
+                  onChanged: setValorDrop,
+                  iconEnabledColor: Colors.lightBlue,
+                  isExpanded: true,
                 ),
               ),
             ),
@@ -103,7 +131,9 @@ class _AberturaDomicilioState extends State<AberturaDomicilio> {
               ),
               label: Text(
                 tipoEntrevista == 'Realizar' ? 'Abrir Questionário' : 'Finalizar Domicílio',
-                style: TextStyle(fontSize: 16),
+                style: sentido == Orientation.portrait ?
+                        TextStyle(fontSize: 16) :
+                        TextStyle(fontSize: 26),
               ),
               onPressed: _clickButton,
             ) : const Align(
