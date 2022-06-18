@@ -5,6 +5,7 @@ class Quesito extends StatelessWidget {
   final String valor;
   final Function(String?) function;
   final List<String> items;
+  final String chave;
 
   Quesito({
     Key? key,
@@ -12,6 +13,7 @@ class Quesito extends StatelessWidget {
     required this.valor,
     required this.function,
     required this.items,
+    required this.chave,
   }) : super(key: key);
 
   @override
@@ -33,7 +35,9 @@ class Quesito extends StatelessWidget {
           ),
         ),
         DropdownButton(
+          key: ValueKey('drop$chave'),
           items: items.map((item) => DropdownMenuItem(
+                  key: ValueKey('dropItem${chave}_$item'),
                   child: Text(
                     item,
                     style: sentido == Orientation.portrait ?

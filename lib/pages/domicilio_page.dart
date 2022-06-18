@@ -48,6 +48,7 @@ class _DomicilioPageState extends State<DomicilioPage> {
               ),
         actions: [
           IconButton(
+            key: const ValueKey("addFaker"),
             icon: const Icon(Icons.add),
             onPressed: (){
               controllerEndereco.text = faker.address.streetAddress();
@@ -61,6 +62,7 @@ class _DomicilioPageState extends State<DomicilioPage> {
           key: formKey,
           child: ListView(padding: const EdgeInsets.all(16), children: [
             TextFormField(
+              key: const ValueKey("endereco"),
               controller: controllerEndereco,
               decoration: decoration('Endereço'),
               validator: (text) =>
@@ -68,6 +70,7 @@ class _DomicilioPageState extends State<DomicilioPage> {
             ),
             const SizedBox(height: 24),
             TextFormField(
+              key: const ValueKey("municipio"),
               controller: controllerMunicipio,
               decoration: decoration('Município'),
               keyboardType: TextInputType.number,
@@ -77,6 +80,7 @@ class _DomicilioPageState extends State<DomicilioPage> {
             ),
             const SizedBox(height: 24),
             TextFormField(
+              key: const ValueKey("estado"),
               controller: controllerEstado,
               decoration: decoration('Estado'),
               keyboardType: TextInputType.number,
@@ -86,6 +90,7 @@ class _DomicilioPageState extends State<DomicilioPage> {
             ),
             const SizedBox(height: 24),
             ElevatedButton.icon(
+              key: const ValueKey("buttonSalvar"),
               label: Text("Salvar",
                 style: sentido == Orientation.portrait ?
                   TextStyle(fontSize: 16) :

@@ -72,7 +72,7 @@ class _QuestionarioState extends State<Questionario> {
                 const Text('Questionário Domicílio') :
                 const Text('Questionário Domicílio', style: TextStyle(fontSize: 32),),
         actions: [
-          IconButton(onPressed: _buttonLocalizacao, icon: const Icon(Icons.gps_fixed_outlined)),
+          IconButton(key: const ValueKey('buttonLocal'), onPressed: _buttonLocalizacao, icon: const Icon(Icons.gps_fixed_outlined)),
         ],
       ),
       body: SingleChildScrollView(
@@ -87,15 +87,16 @@ class _QuestionarioState extends State<Questionario> {
             ) :
             const Text('1. Nas redondezas ou arredores do seu domicílio:',
               style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),),
-            Quesito(texto: '1.1 - Existe iluminação pública?', valor: quesito1, function: setQuesito1, items: itemList1,),
-            Quesito(texto: '1.2 - Existe transporte coletivo como ônibus, van, trem, metrô etc.?', valor: quesito2, function: setQuesito2, items: itemList1,),
-            Quesito(texto: '1.3 - Existe creche ou escola pública?', valor: quesito3, function: setQuesito3, items: itemList1,),
-            Quesito(texto: '1.4 - Existe posto de saúde ou outro centro de atendimento de saúde público?', valor: quesito4, function: setQuesito4, items: itemList1,),
-            Quesito(texto: '1.5 - Existe policiamento?', valor: quesito5, function: setQuesito5, items: itemList1,),
-            Quesito(texto: '1.6 - Existe coleta de lixo?', valor: quesito6, function: setQuesito6, items: itemList1,),
-            quesito6 == 'Não' ? Quesito(texto: '1.6.1 - Qual é o (principal) destino dado ao lixo?', valor: quesito7, function: setQuesito7, items: itemList2,) : const SizedBox(height: 2),
+            Quesito(chave: '1', texto: '1.1 - Existe iluminação pública?', valor: quesito1, function: setQuesito1, items: itemList1,),
+            Quesito(chave: '2', texto: '1.2 - Existe transporte coletivo como ônibus, van, trem, metrô etc.?', valor: quesito2, function: setQuesito2, items: itemList1,),
+            Quesito(chave: '3', texto: '1.3 - Existe creche ou escola pública?', valor: quesito3, function: setQuesito3, items: itemList1,),
+            Quesito(chave: '4', texto: '1.4 - Existe posto de saúde ou outro centro de atendimento de saúde público?', valor: quesito4, function: setQuesito4, items: itemList1,),
+            Quesito(chave: '5', texto: '1.5 - Existe policiamento?', valor: quesito5, function: setQuesito5, items: itemList1,),
+            Quesito(chave: '6', texto: '1.6 - Existe coleta de lixo?', valor: quesito6, function: setQuesito6, items: itemList1,),
+            quesito6 == 'Não' ? Quesito(chave: '7', texto: '1.6.1 - Qual é o (principal) destino dado ao lixo?', valor: quesito7, function: setQuesito7, items: itemList2,) : const SizedBox(height: 2),
             const SizedBox(height: 15),
             ElevatedButton.icon(
+              key: const ValueKey('buttonSalvar'),
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size.fromHeight(50),
               ),

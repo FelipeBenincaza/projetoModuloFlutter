@@ -157,25 +157,26 @@ class _AberturaDomicilioState extends State<AberturaDomicilio> {
   }
 
   _clickButton(){
+    final dom = DomicilioModel(
+      id: widget.domicilio.id,
+      controle: widget.domicilio.controle,
+      endereco: widget.domicilio.endereco,
+      estado: widget.domicilio.estado,
+      municipio: widget.domicilio.municipio,
+      tipoEntrevista: tipoEntrevista,
+      status: tipoEntrevista == "Realizar" ? "Em andamento" : "Finalizada",
+      quesito1: widget.domicilio.quesito1,
+      quesito2: widget.domicilio.quesito2,
+      quesito3: widget.domicilio.quesito3,
+      quesito4: widget.domicilio.quesito4,
+      quesito5: widget.domicilio.quesito5,
+      quesito6: widget.domicilio.quesito6,
+      quesito7: widget.domicilio.quesito7,
+      latitude: widget.domicilio.latitude,
+      longitude: widget.domicilio.longitude,
+    );
+
     if (tipoEntrevista == "Realizar"){
-      final dom = DomicilioModel(
-        id: widget.domicilio.id,
-          controle: widget.domicilio.controle,
-          endereco: widget.domicilio.endereco,
-          estado: widget.domicilio.estado,
-          municipio: widget.domicilio.municipio,
-          tipoEntrevista: tipoEntrevista,
-          status: "Em andamento",
-          quesito1: widget.domicilio.quesito1,
-          quesito2: widget.domicilio.quesito2,
-          quesito3: widget.domicilio.quesito3,
-          quesito4: widget.domicilio.quesito4,
-          quesito5: widget.domicilio.quesito5,
-          quesito6: widget.domicilio.quesito6,
-          quesito7: widget.domicilio.quesito7,
-          latitude: widget.domicilio.latitude,
-          longitude: widget.domicilio.longitude,
-      );
       updateUser(dom);
       Navigator.push(
         context,
@@ -186,27 +187,7 @@ class _AberturaDomicilioState extends State<AberturaDomicilio> {
         ),
       );
     }else {
-      final dom = DomicilioModel(
-        id: widget.domicilio.id,
-        controle: widget.domicilio.controle,
-        endereco: widget.domicilio.endereco,
-        estado: widget.domicilio.estado,
-        municipio: widget.domicilio.municipio,
-        tipoEntrevista: tipoEntrevista,
-        status: "Finalizada",
-        quesito1: widget.domicilio.quesito1,
-        quesito2: widget.domicilio.quesito2,
-        quesito3: widget.domicilio.quesito3,
-        quesito4: widget.domicilio.quesito4,
-        quesito5: widget.domicilio.quesito5,
-        quesito6: widget.domicilio.quesito6,
-        quesito7: widget.domicilio.quesito7,
-        latitude: widget.domicilio.latitude,
-        longitude: widget.domicilio.longitude,
-      );
-
       updateUser(dom);
-
       Navigator.pop(context);
     }
   }
