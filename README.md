@@ -6,7 +6,7 @@
 - Cadastro de Domicilio - tela para cadastrar domicílio preenchendo as informações do endereço. Oferece a opção no appBar para adicionar essas informações de maneira fake. <br>
 - Seleção de Questionário - tela para selecionar o domicílio e excluir domicílio através do Slidable.<br>
 - Abertura de Domicílio - mostra as informações do domicílio e solicita o tipo de entrevista. Dependendo do tipo de entrevista selecionado a entrevista é encerrada ou vai para o questionário.<br>
-- Questionário - tela de quetionário para o domicílio responder. Opção no appBar para capturar as coordenadas no momento do questionario está sendo aplicado.<br>
+- Questionário - tela de questionário para o domicílio responder. Opção no appBar para capturar as coordenadas no momento do questionário está sendo aplicado.<br>
 
 ## Tecnologias utilizadas
 Projeto desenvolvido em Flutter e Dart, utilizando Firebase para persistência de dados e das biblioteca Faker, flutter_slidable, email_validator e location.<br> 
