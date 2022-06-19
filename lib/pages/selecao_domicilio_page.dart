@@ -66,7 +66,7 @@ class _SelecaoDomicilioPageState extends State<SelecaoDomicilioPage> {
       'controle': Random().nextInt(1000000000) + 100000000,
       'endereco': faker.address.streetAddress(),
       'estado': faker.address.state(),
-      'municipio': faker.address.countryCode(),
+      'municipio': faker.address.city(),
       'tipoEntrevista': "Selecione",
       'status': "Não Iniciado",
       'quesito1': "Selecione",
