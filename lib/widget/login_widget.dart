@@ -77,7 +77,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                 TextSpan(
                   recognizer: TapGestureRecognizer()
                     ..onTap = widget.onClickedSignUp,
-                  text: 'Cadastrar novo usuário!',
+                  text: 'Cadastrar novo entrevistador!',
                   style: TextStyle(
                     decoration: TextDecoration.underline,
                     color: Theme.of(context).colorScheme.secondary,
