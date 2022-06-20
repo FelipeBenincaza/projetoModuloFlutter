@@ -23,14 +23,14 @@ class SignUpWidget extends StatefulWidget {
 class _SignUpWidgetState extends State<SignUpWidget> {
   final formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-  final confirmPasswordController = TextEditingController();
+  final senhaController = TextEditingController();
+  final confirmaSenhaController = TextEditingController();
 
   @override
   void dispose() {
     emailController.dispose();
-    passwordController.dispose();
-    confirmPasswordController.dispose();
+    senhaController.dispose();
+    confirmaSenhaController.dispose();
 
     super.dispose();
   }
@@ -63,7 +63,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
             ),
             const SizedBox(height: 4),
             TextFormField(
-              controller: passwordController,
+              controller: senhaController,
               textInputAction: TextInputAction.next,
               decoration: const InputDecoration(labelText: 'Senha'),
               obscureText: true,
@@ -74,12 +74,12 @@ class _SignUpWidgetState extends State<SignUpWidget> {
             ),
             const SizedBox(height: 4),
             TextFormField(
-              controller: confirmPasswordController,
+              controller: confirmaSenhaController,
               textInputAction: TextInputAction.done,
               decoration: const InputDecoration(labelText: 'Confirme a senha'),
               obscureText: true,
               validator: (value) =>
-              passwordController.text != confirmPasswordController.text
+              senhaController.text != confirmaSenhaController.text
                   ? 'Senhas não coincidem'
                   : null,
             ),
@@ -93,7 +93,13 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                 'Cadastrar',
                 style:  TextStyle(fontSize: 24),
               ),
-              onPressed: signUp,
+              onPressed: (){
+                if(emailController.text.isEmpty || senhaController.text.isEmpty || confirmaSenhaController.text.isEmpty){
+                  showMsg('Favor preencher todos os capos para realizar o cadastro.');
+                }else{
+                  signUp();
+                }
+              },
             ),
             const SizedBox(height: 20),
           ],
@@ -116,7 +122,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailController.text.trim(),
-        password: passwordController.text.trim(),
+        password: senhaController.text.trim(),
       );
     } on FirebaseAuthException catch (e) {
       stdout.writeln(e);
@@ -126,5 +132,22 @@ class _SignUpWidgetState extends State<SignUpWidget> {
 
     // Navigator.of(context) not working!
     navigatorKey.currentState!.popUntil((route) => route.isFirst);
+  }
+
+  ///Mostra um showDialog com menssagem de erro.
+  showMsg(String text){
+    return showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text('Questionário Inválido!'),
+        content: Text(text),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'OK'),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
   }
 }

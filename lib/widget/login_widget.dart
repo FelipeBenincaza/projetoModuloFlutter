@@ -19,12 +19,12 @@ class LoginWidget extends StatefulWidget {
 
 class _LoginWidgetState extends State<LoginWidget> {
   final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+  final senhaController = TextEditingController();
 
   @override
   void dispose() {
     emailController.dispose();
-    passwordController.dispose();
+    senhaController.dispose();
 
     super.dispose();
   }
@@ -51,7 +51,7 @@ class _LoginWidgetState extends State<LoginWidget> {
           ),
           const SizedBox(height: 4),
           TextField(
-            controller: passwordController,
+            controller: senhaController,
             textInputAction: TextInputAction.done,
             decoration: const InputDecoration(labelText: 'Senha'),
             obscureText: true,
@@ -66,7 +66,13 @@ class _LoginWidgetState extends State<LoginWidget> {
               'Entrar',
               style: TextStyle(fontSize: 24),
             ),
-            onPressed: signIn,
+            onPressed: (){
+              if (emailController.text.isEmpty || senhaController.text.isEmpty){
+                showMsg('Favor preencher os campos de email e senha.');
+              }else {
+                signIn();
+              }
+            },
           ),
           const SizedBox(height: 16),
           RichText(
@@ -102,7 +108,7 @@ class _LoginWidgetState extends State<LoginWidget> {
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: emailController.text.trim(),
-        password: passwordController.text.trim(),
+        password: senhaController.text.trim(),
       );
     } on FirebaseAuthException catch (e) {
       stdout.writeln(e);
@@ -110,5 +116,22 @@ class _LoginWidgetState extends State<LoginWidget> {
 
     // Navigator.of(context) not working!
     navigatorKey.currentState!.popUntil((route) => route.isFirst);
+  }
+
+  ///Mostra um showDialog com menssagem de erro.
+  showMsg(String text){
+    return showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text('Questionário Inválido!'),
+        content: Text(text),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'OK'),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
   }
 }
