@@ -31,6 +31,7 @@ class _AberturaDomicilioState extends State<AberturaDomicilio> {
     }
   }
 
+  ///Verifica se tipoEntrevista é diferente de Selecione
   bool get isTipoEntrevistaRealizar {
     return tipoEntrevista != "Selecione";
   }
@@ -156,6 +157,9 @@ class _AberturaDomicilioState extends State<AberturaDomicilio> {
     );
   }
 
+  ///Ação do Button, verifica se tipoEntrevista está realizada.
+  ///Caso esteja realizada, atualiza o domicilio com o status Em andamento na collection domicilios e navega para o questionario.
+  ///Se for diferente, atualiza o status para Finalizado e navega para seleção de domicilios.
   _clickButton(){
     final dom = DomicilioModel(
       id: widget.domicilio.id,
@@ -192,6 +196,7 @@ class _AberturaDomicilioState extends State<AberturaDomicilio> {
     }
   }
 
+  ///Atualiza o domicilio na collection domicilios no Firebase
   Future updateUser(DomicilioModel domicilio) async {
     final docUser = FirebaseFirestore.instance.collection('domicilios').doc(domicilio.id);
 

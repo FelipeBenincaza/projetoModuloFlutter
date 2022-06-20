@@ -99,6 +99,8 @@ class _ListDomiciliosWidgetState extends State<ListDomiciliosWidget> {
     );
   }
 
+  ///Seleciona o icone para colocar de acordo com o status.
+  ///Espera receber o status com o tipo String.
   tipoIcon(String status){
     if(status == 'Finalizada'){
       return const Icon( Icons.assignment_turned_in, size: 36,);
@@ -109,6 +111,7 @@ class _ListDomiciliosWidgetState extends State<ListDomiciliosWidget> {
     }
   }
 
+  ///Lê todos os domicilios da collection domicilios no Firebase
   Stream<List<DomicilioModel>> readUsers() => FirebaseFirestore.instance
       .collection('domicilios')
       .snapshots()
@@ -127,6 +130,7 @@ class _ListDomiciliosWidgetState extends State<ListDomiciliosWidget> {
     }
   }
 
+  ///Exclui o domicilio na collection domicilios no Firebase
   Future deleteUser(DomicilioModel domicilio) async {
     /// Reference to document
     final docUser = FirebaseFirestore.instance.collection('domicilios').doc(domicilio.id);

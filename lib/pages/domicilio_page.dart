@@ -50,11 +50,7 @@ class _DomicilioPageState extends State<DomicilioPage> {
           IconButton(
             key: const ValueKey("addFaker"),
             icon: const Icon(Icons.add),
-            onPressed: (){
-              controllerEndereco.text = faker.address.streetAddress();
-              controllerMunicipio.text = faker.address.city();
-              controllerEstado.text = faker.address.state();
-            },
+            onPressed: getDadosFake,
           ),
         ],
       ),
@@ -146,6 +142,14 @@ class _DomicilioPageState extends State<DomicilioPage> {
     border: const OutlineInputBorder(),
   );
 
+  ///Preenche os campos de endereço com dados fake
+  getDadosFake(){
+    controllerEndereco.text = faker.address.streetAddress();
+    controllerMunicipio.text = faker.address.city();
+    controllerEstado.text = faker.address.state();
+  }
+
+  ///Cria um novo domicilio na collection domicilios no Firebase
   Future createUser(DomicilioModel domicilio) async {
     final docUser = FirebaseFirestore.instance.collection('domicilios').doc();
     domicilio.id = docUser.id;

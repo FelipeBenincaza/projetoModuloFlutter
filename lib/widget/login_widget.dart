@@ -91,6 +91,7 @@ class _LoginWidgetState extends State<LoginWidget> {
     ),
   );
 
+  ///Autentica email e senha do entrevistador
   Future signIn() async {
     showDialog(
       context: context,

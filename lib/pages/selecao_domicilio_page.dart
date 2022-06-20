@@ -20,14 +20,15 @@ class TempHomePage extends StatelessWidget {
     );
   }
 }
+
 class SelecaoDomicilioPage extends StatefulWidget {
   const SelecaoDomicilioPage({Key? key}) : super(key: key);
 
   @override
   _SelecaoDomicilioPageState createState() => _SelecaoDomicilioPageState();
 }
+
 class _SelecaoDomicilioPageState extends State<SelecaoDomicilioPage> {
-  final controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -57,8 +58,8 @@ class _SelecaoDomicilioPageState extends State<SelecaoDomicilioPage> {
     );
   }
 
+  ///Cria um domicilio fake na collection domicilios no Firebase
   Future createDomicilio() async {
-    /// Reference to document
     final docUser = FirebaseFirestore.instance.collection('domicilios').doc();
 
     final json = {
@@ -80,10 +81,10 @@ class _SelecaoDomicilioPageState extends State<SelecaoDomicilioPage> {
       'longitude': "",
     };
 
-    /// Create document and write data to Firebase
     await docUser.set(json);
   }
 
+  ///Efetua o logoff da aplicação
   sair() {
     FirebaseAuth.instance.signOut();
   }

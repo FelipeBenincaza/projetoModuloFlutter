@@ -102,6 +102,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
     ),
   );
 
+  ///Criar um novo entrevistador com email e senha
   Future signUp() async {
     final isValid = formKey.currentState!.validate();
     if (!isValid) return;

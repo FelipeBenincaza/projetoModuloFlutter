@@ -44,6 +44,7 @@ class _QuestionarioState extends State<Questionario> {
     longitude = widget.domicilio.longitude;
   }
 
+  ///Pega a localização por gps e salva nas variaveis latitude e longitude
   void _buttonLocalizacao() async{
     localizacao = await pegarLocalizacao();
     latitude = localizacao.latitude.toString();
@@ -122,6 +123,8 @@ class _QuestionarioState extends State<Questionario> {
     );
   }
 
+  ///Mostra um showDialog com ação de confirma e cancela.
+  ///Ao confirmar é realizada o salvamento do questionario no Firebase
   showConfirma(String text){
     final valor = ValidaQuestionario();
     return showDialog<String>(
@@ -153,6 +156,7 @@ class _QuestionarioState extends State<Questionario> {
     );
   }
 
+  ///Mostra um showDialog com menssagem de erro.
   showMsg(String text){
     return showDialog<String>(
       context: context,
@@ -169,6 +173,7 @@ class _QuestionarioState extends State<Questionario> {
     );
   }
 
+  ///Metodo para o preenchimento do domicilio para o salvamento do questionario
   salvaQuestionario(){
     final dom = DomicilioModel(
       id: widget.domicilio.id,
@@ -191,18 +196,22 @@ class _QuestionarioState extends State<Questionario> {
     salvar(dom);
   }
 
+  ///Chama o metodo updateDomicilio para preencher as informações do questionario na collection domicilios
   salvar(DomicilioModel domicilio){
-    updateUser(domicilio);
+    updateDomicilio(domicilio);
     Navigator.popUntil(context, (route) => route.isFirst);
   }
 
-  Future updateUser(DomicilioModel domicilio) async {
+  ///Atualiza o domicilio na collection domicilios no Firebase
+  Future updateDomicilio(DomicilioModel domicilio) async {
     final docUser = FirebaseFirestore.instance.collection('domicilios').doc(domicilio.id);
 
     final json = domicilio.toJson();
     await docUser.update(json);
   }
 
+  ///Metodo para pegar a localização via gps.
+  ///Retorna uma LocationData
   FutureOr<LocationData> pegarLocalizacao() async {
     Location location =  Location();
 
