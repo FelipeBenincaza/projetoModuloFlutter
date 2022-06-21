@@ -1,5 +1,5 @@
 name: projetopesquisa
-description: projeto pesquisa domiciliar para o modulo flutter
+description: Projeto criado para realização de uma pesquisa sobre os serviços publico ofericido ao local de moradia em um domicilio.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
