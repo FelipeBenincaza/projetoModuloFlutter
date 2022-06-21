@@ -10,6 +10,7 @@ import 'dart:math';
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pesquisapack/pesquisapack.dart';
 import 'package:projetopesquisa/models/domicilio_model.dart';
 import 'package:projetopesquisa/pages/questionario.dart';
 
@@ -79,5 +80,33 @@ void main() {
     await tester.tap(dropdownItem);
     await tester.pumpAndSettle();
     expect(dropQuesito7, findsOneWidget);
+  });
+
+  group('valida o pacote de regras', () {
+    final pacote = ValidaQuestionario();
+    test('regra da localização, valor vem com dados', () {
+      expect(pacote.verificaGps('', ''), 'Não foi capturada a localização da abertura do questionário. Confirma salvar sem capturar?');
+    });
+
+    test('regra da localização, valor vem vazio', () {
+      expect(pacote.verificaGps('-22.912758', '-43.227030'), '');
+    });
+
+    String sim = 'Sim';
+    test('verifica se quesitos foram respondidos, valor vem com dados', () {
+      expect(pacote.verificaQuesitosRespondidos(sim, sim, sim, sim, 'Selecione', sim), 'Favor preencher o quesito 1.5.');
+    });
+
+    test('verifica se quesitos foram respondidos, valor vem vazio', () {
+      expect(pacote.verificaQuesitosRespondidos(sim, sim, sim, sim, sim, sim), '');
+    });
+
+    test('verifica se quesito7 precisa ser respondido, valor vem com dados', () {
+      expect(pacote.verificaQuesito7('Não', 'Selecione'), 'Favor preencher o quesito 1.6.1.');
+    });
+
+    test('verifica se quesito7 precisa ser respondido, valor vem vazio', () {
+      expect(pacote.verificaQuesito7('Não', 'Outro destino'), '');
+    });
   });
 }
