@@ -69,7 +69,6 @@ class _DomicilioPageState extends State<DomicilioPage> {
               key: const ValueKey("municipio"),
               controller: controllerMunicipio,
               decoration: decoration('Município'),
-              keyboardType: TextInputType.number,
               validator: (text) => text != null && text.isEmpty
                   ? 'Dados invalidos'
                   : null,
@@ -79,7 +78,6 @@ class _DomicilioPageState extends State<DomicilioPage> {
               key: const ValueKey("estado"),
               controller: controllerEstado,
               decoration: decoration('Estado'),
-              keyboardType: TextInputType.number,
               validator: (text) => text != null && text.isEmpty
                   ? 'Dados invalidos'
                   : null,
